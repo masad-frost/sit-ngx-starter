@@ -11,7 +11,7 @@ const proxy = require('express-http-proxy');
 enableProdMode();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.engine('html', ngExpressEngine({
   bootstrap: ServerAppModule
@@ -19,12 +19,16 @@ app.engine('html', ngExpressEngine({
 app.set('view engine', 'html');
 app.set('views', 'src');
 
-app.use('/assets', proxy('localhost:3001/assets/', {
-  preserveHostHdr: true,
-  proxyReqPathResolver: function(req) {
-    return `/assets/${req.url}`;
-  }
-}));
+if (process.env.NODE_ENV === 'development') {
+  // In production we will be using a cdn to serve statics.
+  // In development we pass the request to webpack-dev-server (for hmr and other goodies)
+  app.use('/assets', proxy(`localhost:${process.env.PORT + 1}/assets/`, {
+    preserveHostHdr: true,
+    proxyReqPathResolver: function(req) {
+      return `/assets/${req.url}`;
+    }
+  }));
+}
 
 app.get('/*', (req: Request, res: Response) => {
   res.render('../dist/client/index', {

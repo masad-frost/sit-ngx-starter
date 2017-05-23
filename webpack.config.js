@@ -8,7 +8,12 @@ const isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1;
 module.exports = function (envOptions, webpackOptions) {
   const isProd = !!envOptions.production;
   const isClient = isDevServer || !!envOptions.client;
-  const options = { isProd: isProd, isClient: isClient };
+  const port = envOptions.port || 3000;
+  const options = {
+    isProd: isProd,
+    isClient: isClient,
+    port: port
+  };
 
   const clientConfig = webpackMerge({}, commonPartial(options), clientPartial(options));
   const serverConfig = webpackMerge({}, commonPartial(options), serverPartial(options));

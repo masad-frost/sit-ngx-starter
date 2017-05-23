@@ -31,7 +31,11 @@ module.exports = function (options) {
       historyApiFallback: true
     },
     plugins: [
-      new webpack.NamedModulesPlugin()
+      new webpack.NamedModulesPlugin(),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(options.isProd ? 'production' : 'development'),
+        'process.env.PORT': JSON.stringify(options.port)
+      })
     ]
   };
 };

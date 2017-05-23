@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const AotPlugin = require('@ngtools/webpack').AotPlugin;
 const HotModuleReplacementPlugin = require('webpack').HotModuleReplacementPlugin;
 
@@ -16,11 +17,14 @@ module.exports = function(options) {
     plugins: [
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, '..', './src/index.html'),
-        output: path.resolve(__dirname, '..', 'dist'),
-        inject: 'head'
+        inject: 'head',
+        alwaysWriteToDisk: true
       }),
       new ScriptExtHtmlWebpackPlugin({
         defaultAttribute: 'defer'
+      }),
+      new HtmlWebpackHarddiskPlugin({
+        outputPath: path.resolve(__dirname, '..', 'dist', 'client')
       }),
       new AotPlugin({
         tsConfigPath: path.resolve(__dirname, '..', './src/client/tsconfig.json'),
