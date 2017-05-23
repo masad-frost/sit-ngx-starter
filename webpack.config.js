@@ -1,22 +1,29 @@
 const webpackMerge = require('webpack-merge');
-const commonConfig= require('./config/webpack.common');
-const clientConfig = require('./config/webpack.client');
-const serverConfig = require('./config/webpack.server');
+const commonPartial= require('./config/webpack.common');
+const clientPartial = require('./config/webpack.client');
+const serverPartial = require('./config/webpack.server');
 
 const isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1;
 
 module.exports = function (envOptions, webpackOptions) {
-  const clientMerged = webpackMerge({}, commonConfig, clientConfig);
-  const serverMerged = webpackMerge({}, commonConfig, serverConfig);
+  const isProd = !!envOptions.production;
+  const isClient = isDevServer || !!envOptions.client;
+  const options = { isProd: isProd, isClient: isClient };
 
-  if (isDevServer || envOptions.client) {
-    return clientMerged;
-  } else if (envOptions.server) {
-    return serverMerged;
+  const clientConfig = webpackMerge({}, commonPartial(options), clientPartial(options));
+  const serverConfig = webpackMerge({}, commonPartial(options), serverPartial(options));
+
+  if (!isProd) {
+    // In development we do seperate builds for server and client
+    if (isClient) {
+      return clientConfig;
+    } else {
+      return serverConfig;
+    }
   } else {
     return [
-      clientMerged,
-      serverMerged
+      clientConfig,
+      serverConfig
     ];
   }
 };
