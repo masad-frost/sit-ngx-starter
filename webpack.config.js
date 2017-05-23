@@ -9,10 +9,14 @@ module.exports = function (envOptions, webpackOptions) {
   const isProd = !!envOptions.production;
   const isClient = isDevServer || !!envOptions.client;
   const port = envOptions.port || 3000;
+  const apiUrl = envOptions.api_url || 'http://localhost:3000/api';
+  const proxiedApiUrl = envOptions.api_url || 'http://localhost:8000';
   const options = {
     isProd: isProd,
     isClient: isClient,
-    port: port
+    port: port,
+    apiUrl: apiUrl,
+    proxiedApiUrl: proxiedApiUrl
   };
 
   const clientConfig = webpackMerge({}, commonPartial(options), clientPartial(options));

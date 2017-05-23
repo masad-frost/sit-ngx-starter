@@ -7,7 +7,8 @@ import { ServerModule } from '@angular/platform-server';
   bootstrap: [AppComponent],
   imports: [
     ServerModule,
-    AppModule
-  ]
+    AppModule,
+  ],
 })
-export class ServerAppModule {}
+export class ServerAppModule {
+}

@@ -1,11 +1,12 @@
-import {Component, Inject, PLATFORM_ID} from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 
 @Component({
-  selector: 'home',
+  selector: 'sit-home',
   styleUrls: ['./home.component.scss'],
-  template: `<h3 class="title">HOOME PAGE</h3>`
+  template: `<h3 class="title">HOOME PAGE</h3>`,
 })
 export class HomeComponent {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {
+  }
 }

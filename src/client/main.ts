@@ -6,7 +6,6 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { ClientAppModule } from './client-app.module';
 import { bootloader } from '@angularclass/hmr';
 
-
 export function main() {
   return platformBrowserDynamic().bootstrapModule(ClientAppModule);
 }
