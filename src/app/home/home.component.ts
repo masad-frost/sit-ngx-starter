@@ -4,7 +4,7 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
 @Component({
   selector: 'sit-home',
   styleUrls: ['./home.component.scss'],
-  template: `<h3 class="title">HOOME PAGE</h3>`,
+  template: `<h3 class="title">HOME PAGE</h3>`,
 })
 export class HomeComponent {
   constructor(@Inject(PLATFORM_ID) private platformId: object) {
