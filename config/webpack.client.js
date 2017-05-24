@@ -39,7 +39,8 @@ module.exports = function(options) {
       hot: true,
       inline: true,
       historyApiFallback: true,
-      host: '0.0.0.0'
+      host: '0.0.0.0',
+      disableHostCheck: true
     }
   }
 };
