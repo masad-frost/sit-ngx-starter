@@ -1,0 +1,198 @@
+@import 'sit-variables';
+
+@mixin transition($transition...) {
+  -moz-transition: $transition;
+  -o-transition: $transition;
+  -webkit-transition: $transition;
+  transition: $transition;
+}
+
+$error-red: #d53426 !default;
+$spacings: 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 5, 15, 25, 35, 45, 55, 65, 75, 85, 95;
+
+.content-background {
+  background: $content-background;
+}
+
+@each $i in $spacings {
+  .spacing-#{$i} {
+    height: #{$i}px;
+  }
+}
+
+//Padings
+
+.padding-top-xs {
+  padding-top: $xs;
+}
+.padding-top-sm {
+  padding-top: $sm;
+}
+.padding-top-md {
+  padding-top: $md;
+}
+.padding-top-lg {
+  padding-top: $lg;
+}
+.padding-top-xl {
+  padding-top: $xl;
+}
+.padding-top-xxl {
+  padding-top: $xxl;
+}
+
+
+.padding-bottom-xs {
+  padding-bottom: $xs;
+}
+.padding-bottom-sm {
+  padding-bottom: $sm;
+}
+.padding-bottom-md {
+  padding-bottom: $md;
+}
+.padding-bottom-lg {
+  padding-bottom: $lg;
+}
+.padding-bottom-xl {
+  padding-bottom: $xl;
+}
+.padding-bottom-xxl {
+  padding-bottom: $xxl;
+}
+
+
+.padding-top-bottom-xs {
+  padding-top: $xs;
+  padding-bottom: $xs;
+}
+.padding-top-bottom-sm {
+  padding-top: #{sm}px;
+  padding-bottom: $sm;
+}
+.padding-top-bottom-md {
+  padding-top: $md;
+  padding-bottom: $md;
+}
+.padding-top-bottom-lg {
+  padding-top: $lg;
+  padding-bottom: $lg;
+}
+.padding-top-bottom-xl {
+  padding-top: $xl;
+  padding-bottom: $xl;
+}
+.padding-top-bottom-xxl {
+   padding-top: $xxl;
+   padding-bottom: $xxl;
+}
+
+
+//margins
+
+.margin-top-xs {
+  margin-top: $xs;
+}
+.margin-top-sm {
+  margin-top: $sm;
+}
+.margin-top-md {
+  margin-top: $md;
+}
+.margin-top-lg {
+  margin-top: $lg;
+}
+.margin-top-xl {
+  margin-top: $xl;
+}
+.margin-top-xxl {
+  margin-top: $xxl;
+}
+
+.margin-bottom-xs {
+  margin-bottom: $xs;
+}
+.margin-bottom-sm {
+  margin-bottom: $sm;
+}
+.margin-bottom-md {
+  margin-bottom: $md;
+}
+.margin-bottom-lg {
+  margin-bottom: $lg;
+}
+.margin-bottom-xl {
+  margin-bottom: $xl;
+}
+.margin-bottom-xxl {
+  margin-bottom: $xxl;
+}
+
+
+.margin-top-bottom-xs {
+  margin-top: $xs;
+  margin-bottom: $xs;
+}
+.margin-top-bottom-sm {
+  margin-top: #{sm}px;
+  margin-bottom: $sm;
+}
+.margin-top-bottom-md {
+  margin-top: $md;
+  margin-bottom: $md;
+}
+.margin-top-bottom-lg {
+  margin-top: $lg;
+  margin-bottom: $lg;
+}
+.margin-top-bottom-xl {
+  margin-top: $xl;
+  margin-bottom: $xl;
+}
+.margin-top-bottom-xxl {
+  margin-top: $xxl;
+  margin-bottom: $xxl;
+}
+
+
+.border-bottom {
+  border-bottom: 1px solid $pinkish-grey;
+  padding-bottom: $sm;
+}
+
+.border-top {
+  border-top: 1px solid $pinkish-grey;
+}
+
+.error {
+  input, select, textarea, .multi-select-button {
+    border-color: $error-red;
+  }
+  .error-message, label {
+    color: $error-red;
+  }
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.overline {
+  text-decoration: overline;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.oblique {
+  font-style: oblique;
+}
