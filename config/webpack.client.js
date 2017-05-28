@@ -7,7 +7,7 @@ const HotModuleReplacementPlugin = require('webpack').HotModuleReplacementPlugin
 
 module.exports = function(options) {
   const config = {
-    entry: path.resolve(__dirname, '..', './src/client/main.ts'),
+    entry: path.resolve(__dirname, '..', './src/main.client.ts'),
     output: {
       path: path.resolve(__dirname, '..', 'dist', 'client'),
       filename: options.isProd ? '[name].[chunkhash].bundle.js' : '[name].bundle.js',
@@ -25,7 +25,7 @@ module.exports = function(options) {
         defaultAttribute: 'defer'
       }),
       new AotPlugin({
-        tsConfigPath: path.resolve(__dirname, '..', './src/client/tsconfig.json'),
+        tsConfigPath: path.resolve(__dirname, '..', './src/tsconfig.client.json'),
         skipCodeGeneration: !options.isProd
       })
     ]
