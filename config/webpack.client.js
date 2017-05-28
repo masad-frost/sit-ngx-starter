@@ -6,11 +6,12 @@ const AotPlugin = require('@ngtools/webpack').AotPlugin;
 const HotModuleReplacementPlugin = require('webpack').HotModuleReplacementPlugin;
 
 module.exports = function(options) {
-  return {
+  const config = {
     entry: path.resolve(__dirname, '..', './src/client/main.ts'),
     output: {
       path: path.resolve(__dirname, '..', 'dist', 'client'),
-      filename: 'client.js',
+      filename: options.isProd ? '[name].[chunkhash].bundle.js' : '[name].bundle.js',
+      chunkFilename: options.isProd ? '[name].[id].[chunkhash].chunk.js' : '[name].[id].chunk.js',
       publicPath: '/assets/'
     },
     target: 'web',
@@ -23,24 +24,30 @@ module.exports = function(options) {
       new ScriptExtHtmlWebpackPlugin({
         defaultAttribute: 'defer'
       }),
-      new HtmlWebpackHarddiskPlugin({
-        outputPath: path.resolve(__dirname, '..', 'dist', 'client')
-      }),
       new AotPlugin({
         tsConfigPath: path.resolve(__dirname, '..', './src/client/tsconfig.json'),
-        skipCodeGeneration: true
-      }),
-      new HotModuleReplacementPlugin()
-    ],
-    devServer: {
-      compress: true,
-      contentBase: './src',
-      port: '3000',
-      hot: true,
-      inline: true,
-      historyApiFallback: true,
-      host: '0.0.0.0',
-      disableHostCheck: true
-    }
+        skipCodeGeneration: !options.isProd
+      })
+    ]
+  };
+
+  if (options.isProd) {
+
+  } else {
+    // new HtmlWebpackHarddiskPlugin({
+    //   outputPath: path.resolve(__dirname, '..', 'dist', 'client')
+    // }),
+    // new HotModuleReplacementPlugin()
+    // devServer: {
+    //   compress: true,
+    //   contentBase: './src',
+    //   port: '3000',
+    //   hot: true,
+    //   inline: true,
+    //   historyApiFallback: true,
+    //   host: '0.0.0.0',
+    //   disableHostCheck: true
+    // }
   }
+  return config
 };

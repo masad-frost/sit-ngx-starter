@@ -7,6 +7,6 @@ import { Component, Inject, PLATFORM_ID } from '@angular/core';
   template: `<h3 class="title">HOME PAGE</h3>`,
 })
 export class HomeComponent {
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {
+  constructor() {
   }
 }
