@@ -30,6 +30,8 @@
     "@angularclass/hmr": "^1.2.2",
     "@angularclass/hmr-loader": "^3.0.2",
     "@nguniversal/express-engine": "^1.0.0-beta.1",
+    "@ngx-translate/core": "^6.0.1",
+    "@ngx-translate/http-loader": "0.0.3",
     "css-loader": "^0.28.2",
     "express": "^4.15.2",
     "ng2-validation": "^4.2.0",
