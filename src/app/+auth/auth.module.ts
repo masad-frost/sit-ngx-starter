@@ -8,6 +8,7 @@ import { AuthService } from './services/auth.service';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ResetPasswordConfirmComponent } from './components/reset-password-confirm/reset-password-confirm.component';
+import { HttpClient } from '../helpers/http.service';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -29,7 +30,8 @@ import { ResetPasswordConfirmComponent } from './components/reset-password-confi
   ],
   providers: [
     AuthService,
+    HttpClient,
   ],
 })
-export class LoginModule {
+export class AuthModule {
 }

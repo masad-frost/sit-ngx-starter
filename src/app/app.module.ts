@@ -5,8 +5,6 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { LoginModule } from './+auth/auth.module';
-import { HttpClient } from './helpers/http.service';
 
 @NgModule({
   imports: [
@@ -17,7 +15,7 @@ import { HttpClient } from './helpers/http.service';
     HttpModule,
     RouterModule.forRoot([
       {path: '', component: HomeComponent, pathMatch: 'full'},
-      {path: 'account', loadChildren: './+auth/auth.module#LoginModule'},
+      {path: 'account', loadChildren: './+auth/auth.module#AuthModule'},
     ]),
   ],
   declarations: [AppComponent, HomeComponent],
