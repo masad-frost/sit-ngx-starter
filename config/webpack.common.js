@@ -35,7 +35,6 @@ module.exports = function (options) {
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(options.isProd ? 'production' : 'development'),
         'process.env.API_URL': JSON.stringify(options.apiUrl),
-        'process.env.PROXIED_API_URL': JSON.stringify(options.proxiedApiUrl),
         'process.env.PORT': JSON.stringify(options.port)
       })
     ]
