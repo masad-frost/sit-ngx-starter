@@ -30,6 +30,16 @@ export class AuthService {
       .catch(this.handleError);
   }
 
+  public resetPassword(value) {
+    // TODO
+    return Promise.resolve(true);
+  }
+
+  public confirmResetPassword(value, userId, resetToken) {
+    // TODO
+    return Promise.resolve(true);
+  }
+
   public loadUser(forceReload: boolean): Promise<User> {
     if (this.user && !forceReload) {
       // cached

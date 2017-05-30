@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 import { CustomValidators } from 'ng2-validation';
 @Component({
   // The selector is what angular internally uses
@@ -20,8 +20,9 @@ export class ResetPasswordComponent {
   public loading = false;
 
   // TypeScript public modifiers
-  constructor(fb: FormBuilder,
-              private userService: UserService, private router: Router) {
+  constructor(private fb: FormBuilder,
+              private authService: AuthService,
+              private router: Router) {
     this.form = fb.group({
       email: ['', [Validators.required, CustomValidators.email]],
     });
@@ -31,7 +32,7 @@ export class ResetPasswordComponent {
     if (valid) {
       const {form: {value: formData}} = this;
       this.loading = true;
-      this.userService.resetPassword(value).then(() => {
+      this.authService.resetPassword(value).then(() => {
         this.loading = false;
         this.success = true;
       }).catch(this.handleError.bind(this));

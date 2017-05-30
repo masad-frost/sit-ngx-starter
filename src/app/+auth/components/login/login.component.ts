@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 @Component({
   // The selector is what angular internally uses
   // for `document.querySelectorAll(selector)` in our index.html
@@ -17,7 +17,7 @@ export class LoginComponent {
   public form: FormGroup;
   // TypeScript public modifiers
   constructor(fb: FormBuilder,
-              private userService: UserService, private router: Router) {
+              private authService: AuthService, private router: Router) {
     this.form = fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
@@ -27,12 +27,11 @@ export class LoginComponent {
 
   public onSubmit({value, valid}) {
     if (valid) {
-      this.userService.login(
-        this.form.value.username, this.form.value.password).then((data) => {
-        if (data.user) {
-          this.router.navigate(['']);
-        }
-      }).catch(this.handleError.bind(this));
+      this.authService.login(
+        this.form.value.username,
+        this.form.value.password
+      )
+        .catch(this.handleError.bind(this));
     }
   }
 

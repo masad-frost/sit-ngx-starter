@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 import { CustomValidators } from 'ng2-validation';
 @Component({
   // The selector is what angular internally uses
@@ -20,7 +20,7 @@ export class ResetPasswordConfirmComponent implements OnInit {
   public token;
   // TypeScript public modifiers
   constructor(fb: FormBuilder,
-              private userService: UserService,
+              private authService: AuthService,
               private router: Router,
               private route: ActivatedRoute) {
     const password = new FormControl('', Validators.required);
@@ -34,7 +34,7 @@ export class ResetPasswordConfirmComponent implements OnInit {
   public onSubmit({value, valid}) {
     if (valid) {
       const {form: {value: formData}} = this;
-      this.userService.confirmResetPassword(value, this.uid, this.token).then((data) => {
+      this.authService.confirmResetPassword(value, this.uid, this.token).then((data) => {
       }).catch(this.handleError.bind(this));
       this.form.reset(formData, false);
     }

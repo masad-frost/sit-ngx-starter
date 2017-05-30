@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
-import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/User';
 import { CustomValidators } from 'ng2-validation';
 @Component({
@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   public registrationForm;
   private newUser;
   // TypeScript public modifiers
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.newUser = new User();
     const password = new FormControl('', [Validators.required]);
     const certainPassword = new FormControl('', CustomValidators.equalTo(password));
@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit {
     this.newUser = value;
     if (valid) {
       const {registrationForm: {value: formValueSnap}} = this;
-      this.userService.createUsers(value).then((data) => {
+      this.authService.register(value).then((data) => {
         this.success = true;
       }).catch(this.handleError.bind(this));
       this.submitted = false;
