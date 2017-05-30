@@ -1,6 +1,6 @@
 import { NgModule, APP_BOOTSTRAP_LISTENER, ApplicationRef } from '@angular/core';
-import { AppComponent } from '../app/app.component';
-import { AppModule } from '../app/app.module';
+import { AppComponent } from './app.component';
+import { AppModule } from './app.module';
 import { ServerModule } from '@angular/platform-server';
 
 @NgModule({

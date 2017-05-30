@@ -1,6 +1,6 @@
 import { NgModule, ApplicationRef } from '@angular/core';
-import { AppComponent } from '../app/app.component';
-import { AppModule } from '../app/app.module';
+import { AppComponent } from './app.component';
+import { AppModule } from './app.module';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 @NgModule({
   bootstrap: [AppComponent],

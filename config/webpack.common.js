@@ -11,7 +11,8 @@ module.exports = function (options) {
       rules: [
         {
           test: /\.ts$/,
-          use: ['@angularclass/hmr-loader', '@ngtools/webpack']
+          use: ['@angularclass/hmr-loader', '@ngtools/webpack'],
+          exclude: [/\.(spec|e2e)\.ts$/]
         },
         {
           test: /\.css$/,
@@ -26,9 +27,6 @@ module.exports = function (options) {
           use: ['raw-loader']
         }
       ]
-    },
-    devServer: {
-      historyApiFallback: true
     },
     plugins: [
       new webpack.NamedModulesPlugin(),

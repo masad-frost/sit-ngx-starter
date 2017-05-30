@@ -3,7 +3,7 @@ const AotPlugin = require('@ngtools/webpack').AotPlugin;
 
 module.exports = function(options) {
   return {
-    entry: path.resolve(__dirname, '..', './src/server/main.ts'),
+    entry: path.resolve(__dirname, '..', './src/main.server.ts'),
     output: {
       path: path.resolve(__dirname, '..', 'dist', 'server'),
       filename: 'server.js'
@@ -11,7 +11,7 @@ module.exports = function(options) {
     target: 'node',
     plugins: [
       new AotPlugin({
-        tsConfigPath: path.resolve(__dirname, '..', './src/server/tsconfig.json'),
+        tsConfigPath: path.resolve(__dirname, '..', './src/tsconfig.server.json'),
         skipCodeGeneration: true
       })
     ]

@@ -3,14 +3,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const AotPlugin = require('@ngtools/webpack').AotPlugin;
-const HotModuleReplacementPlugin = require('webpack').HotModuleReplacementPlugin;
 
 module.exports = function(options) {
-  return {
-    entry: path.resolve(__dirname, '..', './src/client/main.ts'),
+  const config = {
+    entry: path.resolve(__dirname, '..', './src/main.client.ts'),
     output: {
       path: path.resolve(__dirname, '..', 'dist', 'client'),
-      filename: 'client.js',
+      filename: options.isProd ? '[name].[chunkhash].bundle.js' : '[name].bundle.js',
+      chunkFilename: options.isProd ? '[name].[id].[chunkhash].chunk.js' : '[name].[id].chunk.js',
       publicPath: '/assets/'
     },
     target: 'web',
@@ -23,24 +23,56 @@ module.exports = function(options) {
       new ScriptExtHtmlWebpackPlugin({
         defaultAttribute: 'defer'
       }),
+      new AotPlugin({
+        tsConfigPath: path.resolve(__dirname, '..', './src/tsconfig.client.json'),
+        skipCodeGeneration: !options.isProd
+      })
+    ]
+  };
+
+  if (options.isProd) {
+    config.plugins = config.plugins.concat([
+      new webpack.optimize.UglifyJsPlugin({
+        beautify: false,
+        output: {
+          comments: false
+        },
+        mangle: {
+          screw_ie8: true
+        },
+        compress: {
+          screw_ie8: true,
+          warnings: false,
+          conditionals: true,
+          unused: true,
+          comparisons: true,
+          sequences: true,
+          dead_code: true,
+          evaluate: true,
+          if_return: true,
+          join_vars: true,
+          negate_iife: false
+        }
+      })
+    ]);
+  } else {
+    config.plugins = config.plugins.concat([
       new HtmlWebpackHarddiskPlugin({
         outputPath: path.resolve(__dirname, '..', 'dist', 'client')
       }),
-      new AotPlugin({
-        tsConfigPath: path.resolve(__dirname, '..', './src/client/tsconfig.json'),
-        skipCodeGeneration: true
-      }),
-      new HotModuleReplacementPlugin()
-    ],
-    devServer: {
+      new webpack.HotModuleReplacementPlugin()
+    ]);
+
+    config.devServer = {
       compress: true,
       contentBase: './src',
-      port: '3000',
+      port: '3001',
       hot: true,
       inline: true,
       historyApiFallback: true,
       host: '0.0.0.0',
       disableHostCheck: true
-    }
+    };
   }
+  return config
 };

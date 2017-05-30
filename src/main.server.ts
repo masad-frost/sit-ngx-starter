@@ -2,10 +2,12 @@ import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 import 'rxjs/Rx';
 import * as express from 'express';
-import { Request, Response } from 'express'; // types
-import { ServerAppModule } from './server-app.module';
+import { ServerAppModule } from './app/server-app.module';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import { enableProdMode } from '@angular/core';
+
+// types
+import { Request, Response } from 'express';
 
 enableProdMode();
 
