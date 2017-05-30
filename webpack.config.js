@@ -9,7 +9,7 @@ module.exports = function (envOptions, webpackOptions) {
   const isProd = !!envOptions.production;
   const isClient = isDevServer || !!envOptions.client;
   const port = envOptions.port || 3000;
-  const apiUrl = envOptions.api_url || 'http://localhost/api';
+  const apiUrl = envOptions.api_url || 'http://192.168.99.100/api';
   const options = {
     isProd: isProd,
     isClient: isClient,

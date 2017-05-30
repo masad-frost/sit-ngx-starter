@@ -1,5 +1,6 @@
 const path = require('path');
 const AotPlugin = require('@ngtools/webpack').AotPlugin;
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = function(options) {
   return {
@@ -9,6 +10,7 @@ module.exports = function(options) {
       filename: 'server.js'
     },
     target: 'node',
+    externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
     plugins: [
       new AotPlugin({
         tsConfigPath: path.resolve(__dirname, '..', './src/tsconfig.server.json'),

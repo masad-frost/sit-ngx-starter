@@ -1,0 +1,9 @@
+.recaptcha {
+  width: 304px;
+  margin: 0 auto;
+}
+
+.recaptcha-error {
+  text-align: center;
+  color: red;
+}
