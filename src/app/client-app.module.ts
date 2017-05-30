@@ -2,40 +2,31 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
+
 @NgModule({
   bootstrap: [AppComponent],
-  imports: [
-    AppModule,
-  ],
+  imports: [AppModule],
 })
 export class ClientAppModule {
   constructor(public appRef: ApplicationRef) {
   }
 
   public hmrOnInit(store) {
-    if (!store || !store.state) {
+    if (!store) {
       return;
     }
-    // inject AppStore here and update it
-    // this.AppStore.update(store.state)
     if ('restoreInputValues' in store) {
       store.restoreInputValues();
     }
     // change detection
     this.appRef.tick();
-    delete store.state;
     delete store.restoreInputValues;
   }
 
   public hmrOnDestroy(store) {
-    //    console.log('destroy');
     const cmpLocation = this.appRef.components.map((cmp) => cmp.location.nativeElement);
     // recreate elements
     store.disposeOldHosts = createNewHosts(cmpLocation);
-    // inject your AppStore and grab state then set it on store
-    // var appState = this.AppStore.get()
-    store.state = {data: 'yolo'};
-    // store.state = Object.assign({}, appState)
     // save input values
     store.restoreInputValues = createInputTransfer();
     // remove styles
@@ -43,10 +34,8 @@ export class ClientAppModule {
   }
 
   public hmrAfterDestroy(store) {
-    //    console.log('after');
     // display new elements
     store.disposeOldHosts();
     delete store.disposeOldHosts;
-    // anything you need done the component is removed
   }
 }
