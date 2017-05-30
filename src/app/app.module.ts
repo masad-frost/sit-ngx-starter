@@ -17,7 +17,6 @@ import { HttpClient } from './helpers/http.service';
     HttpModule,
     RouterModule.forRoot([
       {path: '', component: HomeComponent, pathMatch: 'full'},
-      {path: 'lazy', loadChildren: './+lazy/lazy.module#LazyModule'},
       {path: 'account', loadChildren: './+auth/auth.module#LoginModule'},
     ]),
     LoginModule,
