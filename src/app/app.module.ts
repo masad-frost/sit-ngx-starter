@@ -19,13 +19,10 @@ import { HttpClient } from './helpers/http.service';
       {path: '', component: HomeComponent, pathMatch: 'full'},
       {path: 'account', loadChildren: './+auth/auth.module#LoginModule'},
     ]),
-    LoginModule,
   ],
   declarations: [AppComponent, HomeComponent],
   exports: [AppComponent],
-  providers: [ // expose our Services and Providers into Angular's dependency injection
-    HttpClient,
-  ],
+  providers: [],
 })
 export class AppModule {
 }
