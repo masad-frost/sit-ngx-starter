@@ -1,7 +1,9 @@
+import 'rxjs/add/operator/toPromise';
 import { Injectable, Injector } from '@angular/core';
 import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Router } from '@angular/router';
 export const API_URL = process.env.API_URL;
+
 @Injectable()
 export class HttpClient {
   private loadersCount = 0;
@@ -13,97 +15,59 @@ export class HttpClient {
 
   public get(url, data = {}) {
     url = API_URL + url;
-    const headers = new Headers({'Content-Type': 'application/json'});
+    const headers = this.getHeaders();
     const params = this.objToSearchParams(data);
     const options = new RequestOptions({headers, search: params});
-    this.createAuthorizationHeader(headers);
-    return this.http.get(url, options).toPromise().then((result) => {
-      // this.refreshUserToken(result);
-      return result.json();
-    })
+    return this.http.get(url, options).toPromise()
+      .then((result) => result.json())
       .catch(this.handleError.bind(this));
   }
 
-  public post(url, data) {
+  public post(url, data = {}) {
     url = API_URL + url;
-    const headers = new Headers({'Content-Type': 'application/json'});
+    const headers = this.getHeaders();
     const options = new RequestOptions({headers});
-    this.createAuthorizationHeader(headers);
-    return this.http.post(url, data, options).toPromise().then((result) => {
-      this.refreshUserToken(result);
-      return result.json();
-    })
+    return this.http.post(url, data, options).toPromise()
+      .then((result) => result.json())
       .catch(this.handleError.bind(this));
   }
 
-  public delete(url, data) {
+  public delete(url, data = {}) {
     url = API_URL + url;
-    const headers = new Headers({'Content-Type': 'application/json'});
+    const headers = this.getHeaders();
     const options = new RequestOptions({headers});
-    this.createAuthorizationHeader(headers);
-    return this.http.delete(url, options).toPromise().then((result) => {
-      this.refreshUserToken(result);
-      return result.json();
-    })
+    return this.http.delete(url, options).toPromise()
+      .then((result) => result.json())
       .catch(this.handleError.bind(this));
   }
 
-  public patch(url, data) {
+  public patch(url, data = {}) {
     url = API_URL + url;
-    const headers = new Headers({'Content-Type': 'application/json'});
+    const headers = this.getHeaders();
     const options = new RequestOptions({headers});
-    this.createAuthorizationHeader(headers);
-    return this.http.patch(url, data, options).toPromise().then((result) => {
-      this.refreshUserToken(result);
-      return result.json();
-    })
+    return this.http.patch(url, data, options).toPromise()
+      .then((result) => result.json())
       .catch(this.handleError.bind(this));
   }
 
-  public put(url, data) {
+  public put(url, data = {}) {
     url = API_URL + url;
-    const headers = new Headers({'Content-Type': 'application/json'});
+    const headers = this.getHeaders();
     const options = new RequestOptions({headers});
-    this.createAuthorizationHeader(headers);
-    return this.http.put(url, data, options).toPromise().then((result) => {
-      this.refreshUserToken(result);
-      return result.json();
-    })
+    return this.http.put(url, data, options).toPromise()
+      .then((result) => result.json())
       .catch(this.handleError.bind(this));
   }
 
-  private handleError(error) {
-    // // const authService = this.injector.get('penos');
-    // if (error.status === 401) {
-    //   const message = error.json();
-    //   if (message.detail === 'Signature has expired.' || message.detail === 'User account is disabled.') {
-    //     // authService.resetAuth();
-    //     // const translatedPath: any = this.localize.translateRoute(['/account/login']);
-    //     // this.router.navigate(translatedPath, {queryParams: {returnUrl: this.router.url}});
-    //   }
-    // }
-    // throw error;
-  }
+  private handleError(error) {}
 
-  private refreshUserToken(response) {
-    // const authService = this.injector.get('penos');
-    // const token = response.headers._headers.get('data-authorization');
-    // if (token) {
-    //   authService.setToken(token[0]);
-    // }
-  }
-
-  private createAuthorizationHeader(headers: Headers) {
-    // const authService = this.injector.get('penos');
-    // if (authService.isLoggedIn()) {
-    //   if (authService.getToken()) {
-    //     const auth = authService.getToken();
-    //     const token = 'JWT ' + auth;
-    //     headers.append('Authorization', token);
-    //   }
-    // } else {
-    //   authService.resetAuth();
-    // }
+  private getHeaders(): Headers {
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const csrfToken = this.getCookie('csrftoken');
+    if (csrfToken) {
+      headers.append('X-CSRFToken', csrfToken);
+    }
+    return headers;
   }
 
   private objToSearchParams(obj): URLSearchParams {
@@ -128,14 +92,14 @@ export class HttpClient {
     return params;
   }
 
-  private startLoader() {
-    this.loadersCount += 1;
-  }
-
-  private completeLoader() {
-    this.loadersCount -= 1;
-    if (this.loadersCount <= 0) {
-      this.loadersCount = 0;
+  private getCookie(name) {
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      const [key, value] = cookie.split('=');
+      if (key === name) {
+        return decodeURIComponent(value);
+      }
     }
+    return '';
   }
 }
