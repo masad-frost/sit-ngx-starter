@@ -24,7 +24,7 @@ export function createTranslateLoader(http: Http) {
     HttpModule,
     RouterModule.forRoot([
       {path: '', component: HomeComponent, pathMatch: 'full'},
-      {path: 'account', loadChildren: './+auth/auth.module#LoginModule'},
+      {path: 'account', loadChildren: './+auth/auth.module#AuthModule'},
     ]),
     LoginModule,
     TranslateModule.forRoot({
