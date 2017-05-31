@@ -5,7 +5,7 @@ import { HttpModule, Http } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { LoginModule } from './+auth/auth.module';
+import { AuthModule } from './+auth/auth.module';
 import { HttpClient } from './helpers/http.service';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -26,7 +26,7 @@ export function createTranslateLoader(http: Http) {
       {path: '', component: HomeComponent, pathMatch: 'full'},
       {path: 'account', loadChildren: './+auth/auth.module#AuthModule'},
     ]),
-    LoginModule,
+    AuthModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
