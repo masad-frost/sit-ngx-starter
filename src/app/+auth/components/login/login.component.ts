@@ -17,19 +17,14 @@ export class LoginComponent {
   public errors;
   public form: FormGroup;
   // TypeScript public modifiers
-  constructor(translate: TranslateService,
-              fb: FormBuilder,
+  constructor(private translate: TranslateService,
+              private fb: FormBuilder,
               private authService: AuthService, private router: Router) {
     this.form = fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
       rememberMe: [false],
     });
-    // this language will be used as a fallback when a translation isn't found in the current language
-    translate.setDefaultLang('en');
-
-    // the lang to use, if the lang isn't available, it will use the current loader to get them
-    translate.use('en');
   }
 
   public onSubmit({value, valid}) {
