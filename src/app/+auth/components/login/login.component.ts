@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   // The selector is what angular internally uses
   // for `document.querySelectorAll(selector)` in our index.html
@@ -16,13 +17,19 @@ export class LoginComponent {
   public errors;
   public form: FormGroup;
   // TypeScript public modifiers
-  constructor(fb: FormBuilder,
-              private authService: AuthService, private router: Router) {
+  constructor(private translate: TranslateService,
+              private fb: FormBuilder,
+              private authService: AuthService) {
     this.form = fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
       rememberMe: [false],
     });
+
+    translate.setDefaultLang('en');
+
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    translate.use('en');
   }
 
   public onSubmit({value, valid}) {
