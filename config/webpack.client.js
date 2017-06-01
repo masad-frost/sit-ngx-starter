@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 const AotPlugin = require('@ngtools/webpack').AotPlugin;
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = function(options) {
   const config = {
@@ -27,7 +28,10 @@ module.exports = function(options) {
       new AotPlugin({
         tsConfigPath: path.resolve(__dirname, '..', './src/tsconfig.client.json'),
         skipCodeGeneration: !options.isProd
-      })
+      }),
+      new CopyWebpackPlugin([
+        { from: 'src/assets' }
+      ])
     ]
   };
 
@@ -66,7 +70,7 @@ module.exports = function(options) {
 
     config.devServer = {
       compress: true,
-      contentBase: './src',
+      contentBase: './dist/client',
       port: '3001',
       hot: true,
       inline: true,

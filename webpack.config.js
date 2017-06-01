@@ -14,7 +14,7 @@ module.exports = function (envOptions, webpackOptions) {
     isProd: isProd,
     isClient: isClient,
     port: port,
-    apiUrl: apiUrl,
+    apiUrl: apiUrl
   };
 
   const clientConfig = webpackMerge({}, commonPartial(options), clientPartial(options));
