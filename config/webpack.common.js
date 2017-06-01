@@ -33,7 +33,8 @@ module.exports = function (options) {
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(options.isProd ? 'production' : 'development'),
         'process.env.API_URL': JSON.stringify(options.apiUrl),
-        'process.env.PORT': JSON.stringify(options.port)
+        'process.env.PORT': JSON.stringify(options.port),
+        'process.env.HOST_IP': JSON.stringify(options.hostIp)
       })
     ]
   };
