@@ -8,6 +8,12 @@ import { TranslateService } from '@ngx-translate/core';
   template: `<h3 class="title">{{ 'Hello' | translate}}</h3>`,
 })
 export class HomeComponent {
+  public test = 1;
   constructor(private translate: TranslateService) {
+    this.test = 2;
+  }
+
+  public testFunction(x) {
+    this.test = x;
   }
 }
