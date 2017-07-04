@@ -12,7 +12,7 @@
     "build:prod": "npm run clean && webpack -p --env.production --env.api_url=localhost:8000 --progress",
     "clean": "rimraf dist",
     "test": "npm run lint && karma start",
-    "lint": "tslint -c ./tslint.json -p ./tsconfig.json --type-check ./src/**/*.ts"
+    "lint": "tslint -c ./tslint.json -p ./tsconfig.json --type-check \"src/**/*.ts\""
   },
   "author": "Faris Masad <f.masad@sit-mena.com>",
   "license": "MIT",
