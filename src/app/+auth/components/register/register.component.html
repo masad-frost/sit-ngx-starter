@@ -3,7 +3,6 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div>
       <div>
-        {{formErrors|json}}
         <div *ngIf="(formErrors && formErrors.nonFieldErrors)">
           <div *ngFor="let error of formErrors.nonFieldErrors" class="error-message">
             {{error}}
