@@ -4,34 +4,18 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ROUTES } from './auth.routes';
 import { LoginComponent } from './components/login/login.component';
-import { AuthService } from './services/auth.service';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ResetPasswordConfirmComponent } from './components/reset-password-confirm/reset-password-confirm.component';
-import { HttpClient } from '../helpers/http.service';
-
-/*
- * Platform and Environment providers/directives/pipes
- */
 
 @NgModule({
-  exports: [LoginComponent, RegisterComponent],
   declarations: [
     LoginComponent,
     RegisterComponent,
     ResetPasswordComponent,
     ResetPasswordConfirmComponent,
   ],
-  imports: [ // import Angular's modules
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forChild(ROUTES),
-    CommonModule,
-  ],
-  providers: [
-    AuthService,
-    HttpClient,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, RouterModule.forChild(ROUTES), CommonModule],
+  providers: [],
 })
-export class AuthModule {
-}
+export class AuthModule {}
