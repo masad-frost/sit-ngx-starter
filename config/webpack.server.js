@@ -10,7 +10,30 @@ module.exports = function(options) {
       filename: 'server.js'
     },
     target: 'node',
-    externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
+    externals: [nodeExternals({
+      whitelist: [
+        /^@angular\/animations/,
+        /^@angular\/common/,
+        /^@angular\/compiler/,
+        /^@angular\/core/,
+        /^@angular\/forms/,
+        /^@angular\/http/,
+        /^@angular\/platform\-browser/,
+        /^@angular\/platform\-browser\-dynamic/,
+        /^@angular\/platform\-server/,
+        /^@angular\/router/,
+        /^@angularclass\/hmr/,
+        /^@angularclass\/hmr\-loader/,
+        /^@nguniversal\/express\-engine/,
+        /^@ngx\-translate\/core/,
+        /^@ngx\-translate\/http-loader/,
+        /^intl/,
+        /^ng2\-validation/,
+        /^rxjs/,
+        /^xhr2/,
+        /^zone.js/,
+      ]
+    })],
     plugins: [
       new AotPlugin({
         tsConfigPath: path.resolve(__dirname, '..', './src/tsconfig.server.json'),

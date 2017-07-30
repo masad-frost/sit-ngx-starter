@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { HttpModule, Http } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
@@ -15,9 +15,6 @@ export function createTranslateLoader(http: Http) {
 
 @NgModule({
   imports: [
-    BrowserModule.withServerTransition({
-      appId: 'sit-universal',
-    }),
     CommonModule,
     HttpModule,
     RouterModule.forRoot([

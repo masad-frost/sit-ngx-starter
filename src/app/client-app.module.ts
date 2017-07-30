@@ -1,15 +1,20 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ApplicationRef } from '@angular/core';
+import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 import { AppComponent } from './app.component';
 import { AppModule } from './app.module';
-import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
 @NgModule({
   bootstrap: [AppComponent],
-  imports: [AppModule],
+  imports: [
+    BrowserModule.withServerTransition({
+      appId: 'sit-universal',
+    }),
+    AppModule,
+  ],
 })
 export class ClientAppModule {
-  constructor(public appRef: ApplicationRef) {
-  }
+  constructor(public appRef: ApplicationRef) {}
 
   public hmrOnInit(store) {
     if (!store) {
