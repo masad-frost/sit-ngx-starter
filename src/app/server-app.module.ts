@@ -14,5 +14,4 @@ import { AppModule } from './app.module';
     AppModule,
   ],
 })
-export class ServerAppModule {
-}
+export class ServerAppModule {}

@@ -14,14 +14,17 @@ enableProdMode();
 const app = express();
 const port = process.env.PORT;
 
-app.engine('html', ngExpressEngine({
-  bootstrap: ServerAppModule,
-}));
+app.engine(
+  'html',
+  ngExpressEngine({
+    bootstrap: ServerAppModule,
+  })
+);
 app.set('view engine', 'html');
 app.set('views', 'src');
 
 app.get('/*', (req: Request, res: Response) => {
-  res.render('../dist/client/index', {req, res});
+  res.render('../dist/client/index', { req, res });
 });
 
 app.listen(port, () => {
