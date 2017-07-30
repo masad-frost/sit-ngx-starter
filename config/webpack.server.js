@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const AotPlugin = require('@ngtools/webpack').AotPlugin;
 const nodeExternals = require('webpack-node-externals');
 
@@ -38,6 +39,9 @@ module.exports = function(options) {
       new AotPlugin({
         tsConfigPath: path.resolve(__dirname, '..', './src/tsconfig.server.json'),
         skipCodeGeneration: true
+      }),
+      new webpack.DefinePlugin({
+        'process.env.API_URL': JSON.stringify('http://server:8000')
       })
     ]
   };
