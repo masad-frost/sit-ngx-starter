@@ -9,7 +9,7 @@
     "serve:server:prod": "node dist/server/server.js",
     "serve:client:dev": "webpack-dev-server --env.development --port 3001",
     "watch:server:dev": "webpack --env.server --env.development --watch",
-    "build:prod": "npm run clean && webpack --env.production --env.api_url=localhost:8000 --progress",
+    "build:prod": "npm run clean && webpack --env.production --progress",
     "clean": "rimraf dist",
     "test": "npm run lint && karma start",
     "lint": "tslint -c ./tslint.json -p ./tsconfig.json --type-check \"src/**/*.ts\"",

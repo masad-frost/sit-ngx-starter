@@ -5,12 +5,12 @@ const serverPartial = require('./config/webpack.server');
 
 const isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1;
 const hostIp = process.env.HOST_IP || 'localhost';
+const apiUrl = process.env.apiUrl || 'http://' + hostIp + '/api';
 
 module.exports = function (envOptions, webpackOptions) {
   const isProd = !!envOptions.production;
   const isClient = isDevServer || !!envOptions.client;
   const port = envOptions.port || 3000;
-  const apiUrl = envOptions.api_url || 'http://' + hostIp + '/api';
   const options = {
     isProd: isProd,
     isClient: isClient,
