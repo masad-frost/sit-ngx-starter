@@ -1,6 +1,6 @@
 {
   "name": "sit-ng2-starter",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Angular2 starter kit for SIT MENA",
   "scripts": {
     "start": "npm run start:dev",
