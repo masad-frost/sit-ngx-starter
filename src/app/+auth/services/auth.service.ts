@@ -1,32 +1,38 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/User';
 import { HttpClient } from '../../helpers/http.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { CookieService } from '../../helpers/cookie.service';
 
 @Injectable()
 export class AuthService {
-  public user: User;
-  public isLoggedIn = false;
+  private userSubject = new BehaviorSubject<User>(new User({}));
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cookieService: CookieService) {}
 
-  public register(user): Promise<User> {
-    return this.http.post('/register/', user)
+  public get user$(): Observable<User> {
+    return this.userSubject.asObservable();
+  }
+
+  public register(firstName, lastName, username, email, password, repeatPassword): Promise<void> {
+    return this.http
+      .post('/register/', { firstName, lastName, username, email, password, repeatPassword })
+      .then(userData => this.setUser(new User(userData)))
       .catch(this.handleError);
   }
 
-  public login(username, password): Promise<User> {
-    return this.http.post('/login/', {username, password})
-      .then((data) => {
-        this.user = new User(false, data.user);
-        this.isLoggedIn = true;
-        return this.user;
-      })
+  public login(username, password, rememberMe): Promise<void> {
+    return this.http
+      .post('/login/', { username, password, rememberMe })
+      .then(userData => this.setUser(new User(userData), rememberMe))
       .catch(this.handleError);
   }
 
-  public logout() {
-    this.http.post('/logout/')
-      .then(() => this.isLoggedIn = false)
+  public logout(): Promise<void> {
+    return this.http
+      .post('/logout/')
+      .then(() => this.setUser(new User({})))
       .catch(this.handleError);
   }
 
@@ -40,18 +46,39 @@ export class AuthService {
     return Promise.resolve(true);
   }
 
-  public loadUser(forceReload: boolean): Promise<User> {
-    if (this.user && !forceReload) {
-      // cached
-      return Promise.resolve(this.user);
+  public loadUser(forceReload?: boolean): Promise<void> {
+    if (forceReload) {
+      return this.fetchUser();
+    }
+
+    const cookieUser = this.cookieService.getCookie('user');
+    if (cookieUser) {
+      const user = new User(JSON.parse(cookieUser));
+      this.setUser(user);
+    }
+
+    return Promise.resolve();
+  }
+
+  public isLoggedIn(): boolean {
+    const user = this.userSubject.getValue();
+    return user && user.isLoggedIn();
+  }
+
+  private fetchUser() {
+    return this.http
+      .get('/get-user/')
+      .then(userData => this.setUser(new User(userData)))
+      .catch(this.handleError);
+  }
+
+  private setUser(user: User, rememberMe?: boolean) {
+    this.userSubject.next(user);
+    if (this.isLoggedIn()) {
+      const expireDays = rememberMe ? 90 : 0;
+      this.cookieService.setCookie('user', JSON.stringify(user), { path: '/', expireDays });
     } else {
-      return this.http.post('/get-user/')
-        .then((data) => {
-          this.user = new User(false, data.user);
-          this.isLoggedIn = true;
-          return this.user;
-        })
-        .catch(this.handleError);
+      this.cookieService.deleteCookie('user');
     }
   }
 
