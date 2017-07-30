@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
     password: [],
     nonFieldErrors: [],
   };
+  // TODO translate these and add server messages
   private validationMessages = {
     username: {
       required: 'Username is required.',

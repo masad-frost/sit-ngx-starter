@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit {
     repeatPassword: [],
     nonFieldErrors: [],
   };
+  // TODO translate these and add server messages
   private validationMessages = {
     firstName: {
       required: 'required',
