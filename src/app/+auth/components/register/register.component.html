@@ -1,156 +1,73 @@
-<div class="container">
-  <h1 class="text-center">CREATE_YOUR_ACCOUNT</h1>
-  <div class="spacing-20"></div>
-  <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-      <div *ngIf="!success">
-        <form #form="ngForm" (ngSubmit)="onSubmit(form)" [formGroup]="registrationForm">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group"
-
-                   [ngClass]="{error:((submitted || registrationForm.get('first_name').touched) && !registrationForm.get('first_name').valid) || (errors && errors.first_name)}">
-                <input type="text" class="form-control" formControlName="first_name"
-                       placeholder='FIRST_NAME *'
-                       (keyup)="nameChange($event)"/>
-                <div class=""
-                     *ngIf="((submitted || registrationForm.get('first_name').touched) && !registrationForm.get('first_name').valid) || (errors && errors.first_name)">
-                  <div *ngIf="errors && errors.first_name" class="error-message">
-                    {{errors.first_name}}
-                  </div>
-                  <div *ngIf="registrationForm.get('first_name').hasError('required')"
-                       class="error-message">
-                    FIRST_NAME_IS_REQUIRED
-                  </div>
-                  <div *ngIf="registrationForm.get('first_name').hasError('maxlength')"
-                       class="error-message">
-                    FIRST_NAME_MUST_BE_LESS_THAN_30_CHARACTER
-                  </div>
-                </div>
-              </div>
-            </div>
+<div>
+  <h1>CREATE_YOUR_ACCOUNT</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+      <div>
+        <div *ngIf="(formErrors && formErrors.nonFieldErrors)">
+          <div *ngFor="let error of formErrors.nonFieldErrors" class="error-message">
+            {{error}}
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group"
-
-                   [ngClass]="{error:((submitted || registrationForm.get('last_name').touched) && !registrationForm.get('last_name').valid) || (errors && errors.last_name)}">
-                <input (keyup)="nameChange($event)" type="text"
-                       class="form-control" formControlName="last_name"
-                       placeholder='LAST_NAME *'/>
-                <div class=""
-                     *ngIf="((submitted || registrationForm.get('last_name').touched) && !registrationForm.get('last_name').valid) || (errors && errors.last_name)">
-                  <div *ngIf="registrationForm.get('last_name').hasError('required')"
-                       class="error-message">
-                    LAST_NAME_IS_REQUIRED
-                  </div>
-                  <div *ngIf="errors && errors.last_name" class="error-message">
-                    {{errors.last_name}}
-                  </div>
-                  <div *ngIf="registrationForm.get('last_name').hasError('maxlength')"
-                       class="error-message">
-                    LAST_NAME_MUST_BE_LESS_THAN_30_CHARACTER
-                  </div>
-                </div>
+        </div>
+        <div>
+          <div>
+            <label>
+              First name
+              <input type="text" formControlName="firstName"/>
+              <div *ngFor="let error of formErrors.firstName" class="error-message">
+                {{error}}
               </div>
-            </div>
+            </label>
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group"
-                   [ngClass]="{error:((submitted || registrationForm.get('username').touched) && !registrationForm.get('username').valid) || (errors && errors.username)}">
-                <input type="text" class="form-control" formControlName="username"
-                       placeholder='Username *'/>
-                <div class=""
-                     *ngIf="((submitted || registrationForm.get('username').touched) && !registrationForm.get('username').valid) || (errors && errors.username)">
-                  <div *ngIf="registrationForm.get('username').hasError('required')"
-                       class="error-message">
-                    Username_IS_REQUIRED
-                  </div>
-                  <div *ngIf="errors && errors.username" class="error-message">
-                    {{errors.username}}
-                  </div>
-                </div>
+          <div>
+            <label>
+              Last name
+              <input type="text" formControlName="lastName"/>
+              <div *ngFor="let error of formErrors.lastName" class="error-message">
+                {{error}}
               </div>
-            </div>
+            </label>
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group"
-                   [ngClass]="{error:((submitted || registrationForm.get('email').touched) && !registrationForm.get('email').valid) || (errors && errors.email)}">
-                <input type="email" class="form-control" formControlName="email"
-                       placeholder='EMAIL *'/>
-                <div class=""
-                     *ngIf="((submitted || registrationForm.get('email').touched) && !registrationForm.get('email').valid) || (errors && errors.email)">
-                  <div *ngIf="registrationForm.get('email').hasError('required')"
-                       class="error-message">
-                    EMAIL_IS_REQUIRED
-                  </div>
-                  <div *ngIf="registrationForm.get('email').hasError('email')"
-                       class="error-message">
-                    INVALID_EMAIL_ADDRESS
-                  </div>
-                  <div *ngIf="errors && errors.email" class="error-message">
-                    {{errors.email}}
-                  </div>
-                </div>
+          <div>
+            <label>
+              Username
+              <input type="text" formControlName="username"/>
+              <div *ngFor="let error of formErrors.username" class="error-message">
+                {{error}}
               </div>
-            </div>
+            </label>
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group"
-                   [ngClass]="{error:((submitted || registrationForm.get('password').touched) && !registrationForm.get('password').valid) || (errors && errors.password)}">
-                <input type="password" class="form-control" formControlName="password"
-                       placeholder='PASSWORD *'/>
-                <div class="error-message"
-                     *ngIf="((submitted || registrationForm.get('password').touched) && !registrationForm.get('password').valid) || (errors && errors.password)">
-                  <div *ngIf="registrationForm.get('password').hasError('required')">
-                    PASSWORD_IS_REQUIRED
-                  </div>
-                  <div *ngIf="registrationForm.get('password').hasError('pattern')">
-                    <div *ngIf="errors && errors.password" class="error-message">
-                      <div *ngFor="let passwordError of errors.password">
-                        {{passwordError}}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          <div>
+            <label>
+              Email
+              <input type="email" formControlName="email"/>
+              <div *ngFor="let error of formErrors.email" class="error-message">
+                {{error}}
               </div>
-            </div>
+            </label>
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group"
-                   [ngClass]="{error:((submitted || registrationForm.get('retype_password').touched) && !registrationForm.get('retype_password').valid) || (errors && errors.retype_password)}">
-                <input type="password" class="form-control"
-                       formControlName="retype_password"
-                       placeholder='CONFIRM_PASSWORD *'/>
-                <div class=""
-                     *ngIf="((submitted || registrationForm.get('retype_password').touched) && !registrationForm.get('retype_password').valid) || (errors && errors.retype_password)">
-                  <div *ngIf="registrationForm.get('retype_password').hasError('equalTo')"
-                       class="error-message">
-                    PASSWORD_DONT_MATCH
-                  </div>
-                  <div *ngIf="errors && errors.retype_password" class="error-message">
-                    {{errors.retype_password}}
-                  </div>
-                </div>
+          <div>
+            <label>
+              Password
+              <input type="password" formControlName="password"/>
+              <div *ngFor="let error of formErrors.password" class="error-message">
+                {{error}}
               </div>
-            </div>
+            </label>
           </div>
-          <hr/>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group text-center">
-                <button type="submit" class="btn btn-primary" [disabled]="!registrationForm.touched">
-                  REGISTER
-                </button>
+          <div>
+            <label>
+              Repeat Password
+              <input type="password" formControlName="repeatPassword"/>
+              <div *ngFor="let error of formErrors.repeatPassword" class="error-message">
+                {{error}}
               </div>
-            </div>
+            </label>
           </div>
-        </form>
+        </div>
       </div>
     </div>
-  </div>
+    <div>
+      <input type="submit" value="Log In"/>
+    </div>
+  </form>
 </div>

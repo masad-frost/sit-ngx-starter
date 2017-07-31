@@ -1,52 +1,79 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { camelizeKeys } from 'humps';
 import { AuthService } from '../../services/auth.service';
-import { TranslateService } from '@ngx-translate/core';
+
 @Component({
-  // The selector is what angular internally uses
-  // for `document.querySelectorAll(selector)` in our index.html
-  // where, in this case, selector is the string 'home'
-  selector: 'sit-login',  // <layout></layout>
-  // Our list of styles in our component. We may add more to compose many styles together
+  selector: 'sit-login',
   styleUrls: ['./login.component.css'],
-  // Every Angular template is first compiled by the browser before Angular runs it's compiler
   templateUrl: './login.component.html',
 })
-export class LoginComponent {
-  public errors;
+export class LoginComponent implements OnInit {
   public form: FormGroup;
-  // TypeScript public modifiers
-  constructor(private translate: TranslateService,
-              private fb: FormBuilder,
-              private authService: AuthService) {
-    this.form = fb.group({
+  public formErrors = {
+    username: [],
+    password: [],
+    nonFieldErrors: [],
+  };
+  // TODO translate these and add server messages
+  private validationMessages = {
+    username: {
+      required: 'Username is required.',
+    },
+    password: {
+      required: 'Password is required.',
+    },
+  };
+
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
+
+  public ngOnInit(): void {
+    this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
       rememberMe: [false],
     });
 
-    translate.setDefaultLang('en');
-
-    // the lang to use, if the lang isn't available, it will use the current loader to get them
-    translate.use('en');
+    this.form.valueChanges.subscribe(() => this.onValueChanged());
   }
 
-  public onSubmit({value, valid}) {
-    if (valid) {
-      this.authService.login(
-        this.form.value.username,
-        this.form.value.password
+  public onValueChanged(): void {
+    const form = this.form;
+
+    for (const field of Object.keys(this.formErrors)) {
+      // clear previous error message (if any)
+      this.formErrors[field] = [];
+      const control = form.get(field);
+
+      if (control && control.touched && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key of Object.keys(control.errors)) {
+          this.formErrors[field].push(messages[key]);
+        }
+      }
+    }
+  }
+
+  public onSubmit(): void {
+    if (!this.form.valid) {
+      return;
+    }
+
+    this.authService
+      .login(
+        this.form.get('username').value,
+        this.form.get('password').value,
+        this.form.get('rememberMe').value
       )
-        .catch(this.handleError.bind(this));
-    }
-  }
+      .catch(error => {
+        if (!error.json) {
+          return Promise.reject(error.message || error);
+        }
 
-  private handleError(error: any) {
-    if (error.json) {
-      this.errors = error.json();
-    }
-
-    return Promise.reject(error.message || error);
+        const serverErrors = camelizeKeys(error.json());
+        for (const field of Object.keys(serverErrors)) {
+          this.formErrors[field] = (this.formErrors[field] || []).concat(serverErrors[field]);
+        }
+      });
   }
 }

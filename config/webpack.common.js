@@ -16,15 +16,34 @@ module.exports = function (options) {
         },
         {
           test: /\.css$/,
-          use: ['to-string-loader', 'css-loader']
+          use: ['to-string-loader', 'css-loader'],
+          exclude: [path.resolve(__dirname, '..', 'src', 'styles')]
         },
         {
           test: /\.scss$/,
-          use: ['to-string-loader', 'css-loader', 'sass-loader']
+          use: ['to-string-loader', 'css-loader', 'sass-loader'],
+          exclude: [path.resolve(__dirname, '..', 'src', 'styles')]
+        },
+        {
+          test: /\.css$/,
+          loader: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: 'css-loader'
+          }),
+          include: [path.resolve(__dirname, '..', 'src', 'styles')]
+        },
+        {
+          test: /\.scss$/,
+          loader: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: 'css-loader!sass-loader'
+          }),
+          include: [path.resolve(__dirname, '..', 'src', 'styles')]
         },
         {
           test: /\.html$/,
-          use: ['raw-loader']
+          use: ['raw-loader'],
+          exclude: [path.resolve(__dirname, '..', 'src', 'index.html')]
         }
       ]
     },
@@ -32,7 +51,6 @@ module.exports = function (options) {
       new webpack.NamedModulesPlugin(),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(options.isProd ? 'production' : 'development'),
-        'process.env.API_URL': JSON.stringify(options.apiUrl),
         'process.env.PORT': JSON.stringify(options.port),
         'process.env.HOST_IP': JSON.stringify(options.hostIp)
       })

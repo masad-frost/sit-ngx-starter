@@ -5,9 +5,8 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { ResetPasswordConfirmComponent } from './components/reset-password-confirm/reset-password-confirm.component';
 
 export const ROUTES: Routes = [
-  {path: 'register', component: RegisterComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'reset-password', component: ResetPasswordComponent},
-  {path: 'reset-password-confirm/:uid/:token', component: ResetPasswordConfirmComponent},
-  // {path: 'email-confirm/:token', component: RegistrationConfirmComponent},
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'reset-password-confirm/:uid/:token', component: ResetPasswordConfirmComponent },
 ];

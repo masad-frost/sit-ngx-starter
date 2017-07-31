@@ -31,8 +31,17 @@ module.exports = function(options) {
       }),
       new CopyWebpackPlugin([
         { from: 'src/assets' }
-      ])
-    ]
+      ]),
+      new webpack.DefinePlugin({
+        'process.env.API_URL': JSON.stringify(options.apiUrl)
+      })
+    ],
+    node: {
+      console: true,
+      fs: 'empty',
+      net: 'empty',
+      tls: 'empty'
+    }
   };
 
   if (options.isProd) {

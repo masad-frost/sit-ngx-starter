@@ -5,20 +5,15 @@ export class User {
   public username: string;
   public email: string;
 
-  constructor(createDefault = false, user: any = null) {
-    if (createDefault) {
-      this.id = 0;
-      this.firstName = '';
-      this.lastName = '';
-      this.username = '';
-      this.email = '';
-    }
-    if (user) {
-      this.id = user.id;
-      this.firstName = user.first_name;
-      this.lastName = user.last_name;
-      this.username = user.username;
-      this.email = user.email;
-    }
+  constructor({ id = 0, first_name = '', last_name = '', username = '', email = '' }) {
+    this.id = id;
+    this.firstName = first_name;
+    this.lastName = last_name;
+    this.username = username;
+    this.email = email;
+  }
+
+  public isLoggedIn(): boolean {
+    return !!this.id;
   }
 }
