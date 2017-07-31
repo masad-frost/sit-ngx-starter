@@ -21,6 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
             <a routerLink="/account/register">Register</a>
           </ng-template>
         </nav>
+        <button (click)="toggleLanguage()">Toggle Language</button>
       </header>
       <main class="main">
         <router-outlet></router-outlet>
@@ -36,5 +37,13 @@ export class AppComponent {
     authService.loadUser();
     translate.setDefaultLang('en');
     translate.use('en');
+  }
+
+  public toggleLanguage() {
+    if (this.translate.currentLang === 'en') {
+      this.translate.use('ar');
+    } else {
+      this.translate.use('en');
+    }
   }
 }

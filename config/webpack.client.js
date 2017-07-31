@@ -8,6 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = function(options) {
   const config = {
+    name: 'client',
     entry: path.resolve(__dirname, '..', './src/main.client.ts'),
     output: {
       path: path.resolve(__dirname, '..', 'dist', 'client'),
@@ -70,6 +71,7 @@ module.exports = function(options) {
       })
     ]);
   } else {
+    config.entry = ['webpack-hot-middleware/client', config.entry];
     config.plugins = config.plugins.concat([
       new HtmlWebpackHarddiskPlugin({
         outputPath: path.resolve(__dirname, '..', 'dist', 'client')

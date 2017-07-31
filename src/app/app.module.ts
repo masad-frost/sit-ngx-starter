@@ -27,6 +27,7 @@ export function createTranslateLoader(http: Http) {
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'account', loadChildren: './+auth/auth.module#AuthModule' },
+      { path: 'lazy', loadChildren: './+lazy/lazy.module#LazyModule' },
     ]),
     TranslateModule.forRoot({
       loader: {
