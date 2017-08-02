@@ -3,31 +3,30 @@ const commonPartial= require('./config/webpack.common');
 const clientPartial = require('./config/webpack.client');
 const serverPartial = require('./config/webpack.server');
 
-const hostIp = process.env.HOST_IP;
-const apiUrl = process.env.API_URL;
+const hostIp = process.env.HOST_IP || 'localhost:3000';
+const apiUrl = process.env.API_URL || 'http://' + hostIp + '/api';
 const isProd = process.env.NODE_ENV === 'production';
+port = process.env.PORT || 3000;
 
 module.exports = function (envOptions, webpackOptions) {
+  envOptions = envOptions || {};
   const options = {
     isProd: isProd,
     hostIp: hostIp,
-    apiUrl: apiUrl
+    apiUrl: apiUrl,
+    port: 3000
   };
 
-  for (const optKey of Object.keys(options)) {
-    if (typeof options[optKey] === 'undefined') {
-      console.error(
-        'Use the operations repo to run this or add the required vars before your script\n',
-        '|=======================================================|\n',
-        '| HOST_IP (required) i.e. http://www.sit-mena.com       |\n',
-        '| API_URL (required) i.e http://api.sit-mena.com        |\n',
-        '| NODE_ENV (optional) defaults to development           |\n',
-        '| NO_SSR (optional) disables SSR                        |\n',
-        '|_______________________________________________________|'
-      );
-      throw new Error(        'Environment variable for ' + optKey + ' is not set.')
-    }
-  }
+  console.log(
+    'Use the operations repo to run this or add the required vars before your script\n',
+    '|=======================================================|\n',
+    '| HOST_IP defaults to localhost:3000                    |\n',
+    '| API_URL defaults to http://HOST_IP/api                |\n',
+    '| PORT defaults to 3000                                 |\n',
+    '| NODE_ENV defaults to development                      |\n',
+    '| NO_SSR defaults to false                              |\n',
+    '|_______________________________________________________|'
+  );
 
   const clientConfig = webpackMerge({}, commonPartial(options), clientPartial(options));
   const serverConfig = webpackMerge({}, commonPartial(options), serverPartial(options));
