@@ -1,7 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = function (options) {
+module.exports = function(options) {
   return {
     devtool: 'source-map',
     resolve: {
@@ -11,7 +12,9 @@ module.exports = function (options) {
       rules: [
         {
           test: /\.ts$/,
-          use: ['@angularclass/hmr-loader', '@ngtools/webpack'],
+          use: ['@ngtools/webpack'].concat(
+            options.isProd ? [] : '@angularclass/hmr-loader'
+          ),
           exclude: [/\.(spec|e2e)\.ts$/]
         },
         {
@@ -50,7 +53,9 @@ module.exports = function (options) {
     plugins: [
       new webpack.NamedModulesPlugin(),
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify(options.isProd ? 'production' : 'development'),
+        'process.env.NODE_ENV': JSON.stringify(
+          options.isProd ? 'production' : 'development'
+        ),
         'process.env.PORT': JSON.stringify(options.port),
         'process.env.HOST_IP': JSON.stringify(options.hostIp)
       })

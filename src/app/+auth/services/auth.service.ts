@@ -47,16 +47,14 @@ export class AuthService {
   }
 
   public loadUser(forceReload?: boolean): Promise<void> {
-    if (forceReload) {
+    const cookieUser = this.cookieService.getCookie('user');
+
+    if (forceReload || !cookieUser) {
       return this.fetchUser();
     }
 
-    const cookieUser = this.cookieService.getCookie('user');
-    if (cookieUser) {
-      const user = new User(JSON.parse(cookieUser));
-      this.setUser(user);
-    }
-
+    const user = new User(JSON.parse(cookieUser));
+    this.setUser(user);
     return Promise.resolve();
   }
 

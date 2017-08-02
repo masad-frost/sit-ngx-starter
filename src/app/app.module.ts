@@ -11,10 +11,6 @@ import { AuthService } from './+auth/services/auth.service';
 import { HttpClient } from './helpers/http.service';
 import { CookieService } from './helpers/cookie.service';
 
-// polyfills
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/switchMap';
-
 export function createTranslateLoader(http: Http) {
   // todo: replace API_URL by s3 bucket url on beta and prod envs
   return new TranslateHttpLoader(http, `http://${process.env.HOST_IP}/assets/i18n/`, '.json');
@@ -27,6 +23,7 @@ export function createTranslateLoader(http: Http) {
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'account', loadChildren: './+auth/auth.module#AuthModule' },
+      { path: 'lazy', loadChildren: './+lazy/lazy.module#LazyModule' },
     ]),
     TranslateModule.forRoot({
       loader: {

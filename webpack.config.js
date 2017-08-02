@@ -3,36 +3,40 @@ const commonPartial= require('./config/webpack.common');
 const clientPartial = require('./config/webpack.client');
 const serverPartial = require('./config/webpack.server');
 
-const isDevServer = process.argv[1].indexOf('webpack-dev-server') !== -1;
-const hostIp = process.env.HOST_IP || 'localhost';
-const apiUrl = process.env.apiUrl || 'http://' + hostIp + '/api';
+const hostIp = process.env.HOST_IP;
+const apiUrl = process.env.API_URL;
+const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = function (envOptions, webpackOptions) {
-  const isProd = !!envOptions.production;
-  const isClient = isDevServer || !!envOptions.client;
-  const port = envOptions.port || 3000;
   const options = {
     isProd: isProd,
-    isClient: isClient,
     hostIp: hostIp,
-    port: port,
     apiUrl: apiUrl
   };
+
+  for (const optKey of Object.keys(options)) {
+    if (typeof options[optKey] === 'undefined') {
+      console.error(
+        'Use the operations repo to run this or add the required vars before your script\n',
+        '|=======================================================|\n',
+        '| HOST_IP (required) i.e. http://www.sit-mena.com       |\n',
+        '| API_URL (required) i.e http://api.sit-mena.com        |\n',
+        '| NODE_ENV (optional) defaults to development           |\n',
+        '| NO_SSR (optional) disables SSR                        |\n',
+        '|_______________________________________________________|'
+      );
+      throw new Error(        'Environment variable for ' + optKey + ' is not set.')
+    }
+  }
 
   const clientConfig = webpackMerge({}, commonPartial(options), clientPartial(options));
   const serverConfig = webpackMerge({}, commonPartial(options), serverPartial(options));
 
-  if (!isProd) {
-    // In development we do seperate builds for server and client
-    if (isClient) {
-      return clientConfig;
-    } else {
-      return serverConfig;
-    }
+  if (process.env.NO_SSR || envOptions.client) {
+    return [clientConfig];
+  } else if (envOptions.server) {
+    return [serverConfig];
   } else {
-    return [
-      clientConfig,
-      serverConfig
-    ];
+    return [clientConfig, serverConfig];
   }
 };

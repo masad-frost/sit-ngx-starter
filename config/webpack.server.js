@@ -5,10 +5,13 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = function(options) {
   return {
+    name: 'server',
     entry: path.resolve(__dirname, '..', './src/main.server.ts'),
     output: {
       path: path.resolve(__dirname, '..', 'dist', 'server'),
-      filename: 'server.js'
+      filename: '[name].server.bundle.js',
+      chunkFilename: '[name].[id].server.chunk.js',
+      libraryTarget: 'commonjs-module'
     },
     target: 'node',
     externals: [nodeExternals({
@@ -32,7 +35,7 @@ module.exports = function(options) {
         /^ng2\-validation/,
         /^rxjs/,
         /^xhr2/,
-        /^zone.js/,
+        /^zone.js/
       ]
     })],
     plugins: [
@@ -41,8 +44,9 @@ module.exports = function(options) {
         skipCodeGeneration: true
       }),
       new webpack.DefinePlugin({
+        // TODO make sure this is handled in prod
         'process.env.API_URL': JSON.stringify('http://server:8000')
-      })
+      }),
     ]
   };
 };
