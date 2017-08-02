@@ -11,7 +11,7 @@ module.exports = function (envOptions, webpackOptions) {
   const options = {
     isProd: isProd,
     hostIp: hostIp,
-    apiUrl: apiUrl,
+    apiUrl: apiUrl
   };
 
   for (const optKey of Object.keys(options)) {
@@ -32,8 +32,10 @@ module.exports = function (envOptions, webpackOptions) {
   const clientConfig = webpackMerge({}, commonPartial(options), clientPartial(options));
   const serverConfig = webpackMerge({}, commonPartial(options), serverPartial(options));
 
-  if (process.env.NO_SSR) {
+  if (process.env.NO_SSR || envOptions.client) {
     return [clientConfig];
+  } else if (envOptions.server) {
+    return [serverConfig];
   } else {
     return [clientConfig, serverConfig];
   }

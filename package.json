@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Angular2 starter kit for SIT MENA",
   "scripts": {
-    "start": "npm run build && PORT=3000 npm run serve",
+    "start": "npm run start:dev",
+    "start:dev": "build -- --env.server && PORT=3000 npm run serve",
     "serve": "node server/server.js",
-    "serve:dev:nossr": "NO_SSR=true npm run serve:dev",
+    "serve:nossr": "NO_SSR=true npm run serve:dev",
     "serve:prod": "NODE_ENV=production npm run serve",
     "build": "npm run clean && webpack --bail --progress",
     "build:prod": "NODE_ENV=production npm run build",
