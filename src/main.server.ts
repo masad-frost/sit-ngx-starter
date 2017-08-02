@@ -1,8 +1,6 @@
-import 'reflect-metadata';
-import 'rxjs/Rx';
+import './polyfills/polyfills.server';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import { enableProdMode } from '@angular/core';
-import * as fs from 'fs';
 import { ServerAppModule } from './app/server-app.module';
 
 if (process.env.NODE_ENV === 'production') {

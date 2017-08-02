@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const serverRender = require('../dist/server/server.js')();
+const serverRender = require('../dist/server/main.server.bundle.js').default();
 
 const router = express.Router();
 

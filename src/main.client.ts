@@ -1,7 +1,4 @@
-import 'zone.js/dist/zone';
-import 'reflect-metadata';
-import 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import './polyfills/polyfills.client';
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { ClientAppModule } from './app/client-app.module';

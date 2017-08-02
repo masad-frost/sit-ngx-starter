@@ -9,7 +9,8 @@ module.exports = function(options) {
     entry: path.resolve(__dirname, '..', './src/main.server.ts'),
     output: {
       path: path.resolve(__dirname, '..', 'dist', 'server'),
-      filename: '[name].js',
+      filename: '[name].server.bundle.js',
+      chunkFilename: '[name].[id].server.chunk.js',
       libraryTarget: 'commonjs-module'
     },
     target: 'node',
@@ -34,7 +35,7 @@ module.exports = function(options) {
         /^ng2\-validation/,
         /^rxjs/,
         /^xhr2/,
-        /^zone.js/,
+        /^zone.js/
       ]
     })],
     plugins: [
