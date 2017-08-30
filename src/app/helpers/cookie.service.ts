@@ -57,6 +57,16 @@ export class CookieService {
     }
   }
 
+  public getCookieString() {
+    if (isPlatformBrowser(this.platformId)) {
+      return document.cookie;
+    } else {
+      return Object.keys(this.request.cookie).reduce(
+        cookieName => cookieName + this.request.cookie[cookieName] + ';'
+      );
+    }
+  }
+
   public deleteCookie(name: string, options?: ICookieOptions) {
     // Make sure the options match the targeted cookie
     this.setCookie(name, '', { ...options, expireDays: -1 });

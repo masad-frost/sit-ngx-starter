@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Http, Headers, RequestOptions } from '@angular/http';
+import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import { decamelizeKeys, camelizeKeys } from 'humps';
 import { CookieService } from './cookie.service';
 import { objToSearchParams } from './utils';
@@ -10,7 +12,13 @@ export const API_URL = process.env.API_URL;
 export class HttpClient {
   private loadersCount = 0;
 
-  constructor(public http: Http, public cookieService: CookieService) {}
+  constructor(
+    public http: Http,
+    public cookieService: CookieService,
+    @Inject(PLATFORM_ID) private platformId: object,
+    @Inject(REQUEST) private request,
+    @Inject(RESPONSE) private response
+  ) {}
 
   public get(url, data = {}) {
     url = API_URL + url;
@@ -79,6 +87,12 @@ export class HttpClient {
     if (csrfToken) {
       headers.append('X-CSRFToken', csrfToken);
     }
+
+    if (!isPlatformBrowser(this.platformId)) {
+      const cookieString = this.cookieService.getCookieString();
+      headers.append('Cookie', cookieString);
+    }
+
     return headers;
   }
 }
